@@ -4,17 +4,17 @@ import (
 	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rishavmngo/chatter-backend/api/user"
-	"github.com/rishavmngo/chatter-backend/domain"
+	"github.com/rishavmngo/chatter-backend/intrf"
 	"net/http"
 )
 
 type Server struct {
-	DB     domain.Store
+	DB     intrf.Store
 	Router *mux.Router
 	Port   string
 }
 
-func (server *Server) Initilize(port string, store domain.Store) {
+func (server *Server) Initilize(port string, store intrf.Store) {
 	server.DB = store
 	server.Router = mux.NewRouter()
 	server.Port = port
@@ -32,7 +32,7 @@ func (server *Server) InitilizeRoutes() {
 
 }
 
-type InitRouter func(*mux.Router, domain.Store)
+type InitRouter func(*mux.Router, intrf.Store)
 
 func (server *Server) Subroute(path string, initRouter InitRouter) {
 	subrouter := server.Router.PathPrefix(path).Subrouter()

@@ -6,6 +6,7 @@ import (
 	"log"
 
 	_ "github.com/lib/pq"
+	"github.com/rishavmngo/chatter-backend/types"
 )
 
 type Postgres struct {
@@ -20,7 +21,6 @@ func InitilizePostgresStore(user, password, dbname, port string) *Postgres {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	ensureTableExist(postgres.db)
 	return &postgres
 }
@@ -54,8 +54,13 @@ const userTable = `CREATE TABLE IF NOT EXISTS users
 	CONSTRAINT user_email_unique unique (email)
 )`
 
-func (postgres *Postgres) AddUser() {
+func (postgres *Postgres) AddUser(user *types.User) error {
+	err := postgres.db.QueryRow("Insert INTO users(username, email, password) VALUES($1, $2, $3) returning id", user.Username, user.Email, user.Password).Scan(&user.ID)
 
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (posgres *Postgres) GetUserById()       {}
