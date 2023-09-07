@@ -7,6 +7,17 @@ import (
 
 type NullableString sql.NullString
 
+func (ns *NullableString) Value() sql.NullString {
+	s := ns.String
+	if len(s) == 0 {
+		return sql.NullString{}
+	}
+	return sql.NullString{
+		String: s,
+		Valid:  true,
+	}
+}
+
 func (ns *NullableString) UnmarshalJSON(data []byte) error {
 	if string(data) == "null" {
 		ns.Valid = false
