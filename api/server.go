@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"github.com/gorilla/mux"
 	"github.com/rishavmngo/chatter-backend/api/user"
 	"github.com/rishavmngo/chatter-backend/intrf"
@@ -23,18 +22,18 @@ func (server *Server) Initilize(port string, store intrf.Store) {
 
 func (server *Server) InitilizeRoutes() {
 
-	server.Router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "hello,world")
-
-	}).Methods("GET")
+	// server.Router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+	// 	fmt.Fprintf(w, "hello,world")
+	//
+	// }).Methods("GET")
 
 	server.Subroute("/user", user.Routes)
 
 }
 
-type InitRouter func(*mux.Router, intrf.Store)
+type InitRouterType func(*mux.Router, intrf.Store)
 
-func (server *Server) Subroute(path string, initRouter InitRouter) {
+func (server *Server) Subroute(path string, initRouter InitRouterType) {
 	subrouter := server.Router.PathPrefix(path).Subrouter()
 	initRouter(subrouter, server.DB)
 }
