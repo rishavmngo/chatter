@@ -1,15 +1,15 @@
 package user
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
 	"github.com/rishavmngo/chatter-backend/intrf"
-	"net/http"
 )
 
 func Routes(router *mux.Router, db intrf.Store) {
 
-	user := User{}
-	router.HandleFunc("/register", appendDB(db, user.Register)).Methods("GET")
+	router.HandleFunc("/register", appendDB(db, Register)).Methods("POST")
 }
 
 type Handler func(http.ResponseWriter, *http.Request, intrf.Store)
