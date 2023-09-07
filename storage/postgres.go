@@ -55,7 +55,7 @@ const userTable = `CREATE TABLE IF NOT EXISTS users
 )`
 
 func (postgres *Postgres) AddUser(user *types.User) error {
-	err := postgres.db.QueryRow("Insert INTO users(username, email, password) VALUES($1, $2, $3) returning id", user.Username, user.Email.Value(), user.Password).Scan(&user.ID)
+	err := postgres.db.QueryRow("Insert INTO users(username, email, password) VALUES($1, $2, $3) returning id", user.Username, user.Email, user.Password).Scan(&user.ID)
 
 	if err != nil {
 		return err
@@ -63,5 +63,14 @@ func (postgres *Postgres) AddUser(user *types.User) error {
 	return nil
 }
 
-func (posgres *Postgres) GetUserById()       {}
-func (posgres *Postgres) GetUserByUsername() {}
+func (posgres *Postgres) GetUserById() {}
+func (postgres *Postgres) GetUserByUsernameAndPassword(user *types.User) error {
+
+	err := postgres.db.QueryRow("SELECT id,email FROM users where username=$1 and password=$2", user.Username, user.Password).Scan(&user.ID, &user.Email)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -12,4 +12,5 @@ func Routes(router *mux.Router, db intrf.Store) {
 	user = &Controller{db}
 
 	router.HandleFunc("/register", user.Register).Methods("POST")
+	router.HandleFunc("/login", user.Login).Methods("POST")
 }

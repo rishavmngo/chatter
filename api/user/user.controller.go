@@ -34,5 +34,20 @@ func (controller *Controller) Register(w http.ResponseWriter, r *http.Request) {
 }
 
 func (controller *Controller) Login(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
 
+	user := types.User{}
+	err := decoder.Decode(&user)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = controller.db.GetUserByUsernameAndPassword(&user)
+
+	if err != nil {
+		utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+	utils.RespondWithJson(w, http.StatusOK, user)
 }

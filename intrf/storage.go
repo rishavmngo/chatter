@@ -6,6 +6,6 @@ import (
 
 type Store interface {
 	GetUserById()
-	GetUserByUsername()
+	GetUserByUsernameAndPassword(*types.User) error
 	AddUser(*types.User) error
 }
