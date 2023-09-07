@@ -10,7 +10,12 @@ import (
 	"github.com/rishavmngo/chatter-backend/utils"
 )
 
-func Register(w http.ResponseWriter, r *http.Request, db intrf.Store) {
+type Controller struct {
+	db intrf.Store
+}
+
+func (controller *Controller) Register(w http.ResponseWriter, r *http.Request) {
+
 	decoder := json.NewDecoder(r.Body)
 
 	user := types.User{}
@@ -19,7 +24,7 @@ func Register(w http.ResponseWriter, r *http.Request, db intrf.Store) {
 		log.Fatal(err)
 	}
 
-	err = db.AddUser(&user)
+	err = controller.db.AddUser(&user)
 
 	if err != nil {
 		utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
@@ -28,6 +33,6 @@ func Register(w http.ResponseWriter, r *http.Request, db intrf.Store) {
 	utils.RespondWithJson(w, http.StatusOK, user)
 }
 
-func Login(w http.ResponseWriter, r *http.Request, db intrf.Store) {
+func (controller *Controller) Login(w http.ResponseWriter, r *http.Request) {
 
 }

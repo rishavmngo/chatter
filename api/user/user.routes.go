@@ -1,22 +1,15 @@
 package user
 
 import (
-	"net/http"
-
 	"github.com/gorilla/mux"
 	"github.com/rishavmngo/chatter-backend/intrf"
+	"github.com/rishavmngo/chatter-backend/types"
 )
 
 func Routes(router *mux.Router, db intrf.Store) {
+	var user types.UserController
 
-	router.HandleFunc("/register", appendDB(db, Register)).Methods("POST")
-}
+	user = &Controller{db}
 
-type Handler func(http.ResponseWriter, *http.Request, intrf.Store)
-
-func appendDB(db intrf.Store, handler Handler) http.HandlerFunc {
-
-	return func(w http.ResponseWriter, r *http.Request) {
-		handler(w, r, db)
-	}
+	router.HandleFunc("/register", user.Register).Methods("POST")
 }

@@ -54,8 +54,18 @@ const userTable = `CREATE TABLE IF NOT EXISTS users
 	CONSTRAINT user_email_unique unique (email)
 )`
 
+// handle if the user.Email.String is null
+func NewNullString(s string) sql.NullString {
+	if len(s) == 0 {
+		return sql.NullString{}
+	}
+	return sql.NullString{
+		String: s,
+		Valid:  true,
+	}
+}
 func (postgres *Postgres) AddUser(user *types.User) error {
-	err := postgres.db.QueryRow("Insert INTO users(username, email, password) VALUES($1, $2, $3) returning id", user.Username, user.Email, user.Password).Scan(&user.ID)
+	err := postgres.db.QueryRow("Insert INTO users(username, email, password) VALUES($1, $2, $3) returning id", user.Username, NewNullString(user.Email.String), user.Password).Scan(&user.ID)
 
 	if err != nil {
 		return err
