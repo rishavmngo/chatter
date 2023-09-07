@@ -2,7 +2,11 @@ package types
 
 type User struct {
 	ID       uint   `json:"id"`
-	Username string `json:"user_name"`
+	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
+
+// type UserController interface {
+// 	Register()
+// }
