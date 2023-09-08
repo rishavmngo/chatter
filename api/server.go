@@ -1,10 +1,12 @@
 package server
 
 import (
+	"net/http"
+
 	"github.com/gorilla/mux"
+	"github.com/rishavmngo/chatter-backend/api/chats"
 	"github.com/rishavmngo/chatter-backend/api/user"
 	"github.com/rishavmngo/chatter-backend/intrf"
-	"net/http"
 )
 
 type Server struct {
@@ -22,13 +24,8 @@ func (server *Server) Initilize(port string, store intrf.Store) {
 
 func (server *Server) InitilizeRoutes() {
 
-	// server.Router.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	fmt.Fprintf(w, "hello,world")
-	//
-	// }).Methods("GET")
-
 	server.Subroute("/user", user.Routes)
-
+	server.Subroute("/chats", chats.Routes)
 }
 
 type InitRouterType func(*mux.Router, intrf.Store)
