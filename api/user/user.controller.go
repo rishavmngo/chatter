@@ -5,7 +5,9 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/rishavmngo/chatter-backend/intrf"
+	"github.com/rishavmngo/chatter-backend/jwtUtils"
 	"github.com/rishavmngo/chatter-backend/types"
 	"github.com/rishavmngo/chatter-backend/utils"
 )
@@ -49,5 +51,6 @@ func (controller *Controller) Login(w http.ResponseWriter, r *http.Request) {
 		utils.RespondWithError(w, http.StatusInternalServerError, err.Error())
 		return
 	}
-	utils.RespondWithJson(w, http.StatusOK, user)
+	token := jwtUtils.GenerateToken(user.ID)
+	utils.RespondWithJson(w, http.StatusOK, map[string]string{"token": token})
 }
