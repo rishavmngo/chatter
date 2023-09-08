@@ -5,18 +5,17 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/rishavmngo/chatter-backend/intrf"
 	"github.com/rishavmngo/chatter-backend/jwtUtils"
 	"github.com/rishavmngo/chatter-backend/types"
 	"github.com/rishavmngo/chatter-backend/utils"
 )
 
-type Controller struct {
+type controller struct {
 	db intrf.Store
 }
 
-func (controller *Controller) Register(w http.ResponseWriter, r *http.Request) {
+func (controller *controller) Register(w http.ResponseWriter, r *http.Request) {
 
 	decoder := json.NewDecoder(r.Body)
 
@@ -35,7 +34,7 @@ func (controller *Controller) Register(w http.ResponseWriter, r *http.Request) {
 	utils.RespondWithJson(w, http.StatusOK, user)
 }
 
-func (controller *Controller) Login(w http.ResponseWriter, r *http.Request) {
+func (controller *controller) Login(w http.ResponseWriter, r *http.Request) {
 	decoder := json.NewDecoder(r.Body)
 
 	user := types.User{}
