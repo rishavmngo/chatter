@@ -3,8 +3,8 @@
 - Decoupled databases and controller
 
 ## Directory structure
-```
 
+```
 .
 ├── api
 │   ├── server.go
@@ -27,3 +27,4 @@
 └── utils
     └── utils.go
 ```
+
