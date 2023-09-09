@@ -14,3 +14,7 @@ type ChatController interface {
 	GetById(http.ResponseWriter, *http.Request)
 	Add(http.ResponseWriter, *http.Request)
 }
+
+func (chat *Chat) AddCreatedAt() {
+	chat.CreatedAt = time.Now()
+}

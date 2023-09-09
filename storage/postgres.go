@@ -122,3 +122,23 @@ func (postgres *Postgres) GetUserByUsernameAndPassword(user *types.User) error {
 
 	return nil
 }
+
+func (postgres *Postgres) AddChat(chat *types.Chat) error {
+
+	chat.AddCreatedAt()
+	err := postgres.db.QueryRow("INSERT INTO chats(created_at) values($1) returning id", chat.CreatedAt).Scan(&chat.ID)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (postgres *Postgres) GetChatById(chat *types.Chat) error {
+	err := postgres.db.QueryRow("SELECT created_at FROM chats WHERE id=$1", chat.ID).Scan(&chat.CreatedAt)
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

@@ -5,6 +5,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/rishavmngo/chatter-backend/api/chats"
+	"github.com/rishavmngo/chatter-backend/api/messages"
 	"github.com/rishavmngo/chatter-backend/api/user"
 	"github.com/rishavmngo/chatter-backend/intrf"
 )
@@ -26,6 +27,7 @@ func (server *Server) InitilizeRoutes() {
 
 	server.Subroute("/user", user.Routes)
 	server.Subroute("/chats", chats.Routes)
+	server.Subroute("/messages", messages.Routes)
 }
 
 type InitRouterType func(*mux.Router, intrf.Store)
